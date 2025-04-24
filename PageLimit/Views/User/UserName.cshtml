@@ -1,117 +1,15 @@
-﻿<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+﻿@{
+    ViewData["Title"] = "User Page";
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="~/css/username.css" rel="stylesheet" />
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<link href="~/css/userdetails.css" rel="stylesheet" />
+
 <script src="~/js/jquery.validate.js"></script>
-<style>
-    .headerText {
-        font-family: cursive;
-    }
-
-    #SaveModel, .edit-btn {
-        margin-right: 5px;
-    }
-
-    #CloseModel, .delete-btn {
-        margin-left: 5px;
-    }
-
-    button {
-        padding: 10px 15px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    /* Overlay background */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: none;
-        z-index: 998;
-    }
-
-    /* Offcanvas container */
-    .offcanvas {
-        position: fixed;
-        top: 0;
-        right: -300px; /* Hidden by default */
-        width: 300px;
-        height: 100%;
-        background: white;
-        box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-        padding: 20px;
-        z-index: 999;
-    }
-
-    /* Close button */
-    .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .nowrap-gender {
-        display: flex;
-        align-items: center;
-        gap: 10px; /* Optional spacing */
-        white-space: nowrap;
-    }
-
-    .form-check-inline {
-        display: flow !important;
-        margin-right: 1rem;
-    }
-
-    .card-header {
-        font-size: large;
-        font-weight: 500;
-        font-family: inherit;
-    }
-
-    #Asterisk {
-        margin-left: 5px;
-        color: red;
-        font-weight: 600;
-    }
-
-    .card-body {
-        border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
-        padding-bottom: 10px;
-        padding-top: 10px;
-        background: #f8f8f8;
-    }
-
-    .alert {
-        margin: auto;
-        width: 28%;
-    }
-
-    #AlertPop {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1050;
-        min-width: 300px;
-    }
-
-    .error {
-        color: red;
-        font-size: 13px;
-        font-weight: 600;
-    }
-</style>
 
 <h3 class="d-flex justify-content-center headerText">User Details</h3>
 
@@ -142,9 +40,6 @@
         <div class="exportsiconpop">
             <span class="pop">
                 <a class="btn btn-primary m-r-20" id="AddUser">Create User</a>
-                @*  <a id="AddUser" title="Add User">
-                <img src="~/image/addicon.svg" style="height: 25px; width: 25px;" />
-                </a> *@
             </span>
         </div>
     </div>
@@ -170,89 +65,20 @@
     </div>
 </div>
 
-@*
-
-    <!-- Overlay -->
-    <div id="overlay" class="overlay"></div>
-
-    <!-- Offcanvas Panel -->
-    <div id="myUser" class="offcanvas">
-    <button id="closeCanvas" class="close-btn">&times;</button>
-    <h2>Offcanvas Title</h2>
-    <p>This is your offcanvas content that pops out using jQuery.</p>
-    </div>
-    *@
-
-<!-- Modal -->
 <div class="modal fade" id="myUser" tabindex="-1" aria-labelledby="modalLabel" data-backdrop="static" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-
             <div class="card">
                 <div class="card-header">
                     Add User Details
                 </div>
                 <div class="container-fluid">
-                    <form id="FromUserDetails">
-                        <div class="row mt-2 mb-3">
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-12">
-                                <div class="form-group">
-                                    <label>User Name<span id="Asterisk">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Name" id="Name" name="Name" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-6">
-                                <div class="form-group">
-                                    <label style="margin-top: 7px;">Gender<span id="Asterisk">*</span></label>
-                                    <div class="d-inline-flex" style="margin-top: 4px;">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="Male" value="Male">
-                                            <label class="form-check-label" for="Male">Male</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="Female" value="Female">
-                                            <label class="form-check-label" for="Female">Female</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="gender" id="Other" value="Other">
-                                            <label class="form-check-label" for="Other">Other</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-6 mt-2">
-                                <div class="form-group">
-                                    <label>PhoneNo<span id="Asterisk">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Phone Number" id="PhoneNo" name="PhoneNo" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-6 mt-2">
-                                <div class="form-group">
-                                    <label>Email<span id="Asterisk">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Email" id="Email" name="Email" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-6 mt-2">
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" placeholder="Address" id="Address" name="Address" />
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-12 mt-2">
-                                <div class="form-group">
-                                    <label>Country<span id="Asterisk">*</span></label>
-                                    <select class="form-control" id="CountryId" name="CountryId" required>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-lg-12 col-sm-12 col-12 mt-2">
-                                <div class="form-group">
-                                    <label>Skill<span id="Asterisk">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Skill" id="Skill" name="Skill" required />
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-12 mt-2 d-flex justify-content-end">
+                        <button id="" class="btn AddStockBtn" type="button" onclick="DyanamicHtml(this)">
+                            <i class="fas fa-plus" id="AddButton"></i>
+                        </button>
+                    </div>
+                    <form id="FromUserDetails" style="margin-top: -46px;">
                     </form>
                 </div>
                 <div class="card-body d-flex justify-content-center">
@@ -264,24 +90,5 @@
         </div>
     </div>
 </div>
-
-<div id="confirmationModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <p>Are you sure you want to proceed?</p>
-        <button id="confirmBtn">Confirm</button>
-        <button id="cancelBtn">Cancel</button>
-    </div>
-</div>
-
-<div id="ResponseMessageModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <p id="ResponseMessage"></p>
-        <button id="confirmBtn">Confirm</button>
-        <button id="cancelBtn">Cancel</button>
-    </div>
-</div>
-
 
 <script src="~/js/username.js"></script>

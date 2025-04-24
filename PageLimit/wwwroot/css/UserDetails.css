@@ -1,0 +1,155 @@
+﻿.headerText {
+    font-family: cursive;
+}
+
+#SaveModel, .edit-btn {
+    margin-right: 5px;
+}
+
+#CloseModel, .delete-btn {
+    margin-left: 5px;
+}
+
+.edit-btn {
+    color: #21ec42
+}
+
+.delete-btn {
+    color: red
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 998;
+}
+
+.offcanvas {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    z-index: 999;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nowrap-gender {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.form-check-inline {
+    display: flow !important;
+    margin-right: 1rem;
+}
+
+.card-header {
+    font-size: large;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+#Asterisk {
+    margin-left: 5px;
+    color: red;
+    font-weight: 600;
+}
+
+.card-body {
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background: #f8f8f8;
+}
+
+.alert {
+    margin: auto;
+    width: 28%;
+}
+
+#AlertPop {
+    position: fixed;
+    top: 96px;
+    right: 146px;
+    z-index: 1050;
+    width: auto;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.AddStockBtn {
+    background: none;
+    color: green;
+    transition: background 0.3sease, border-color 0.3sease, box-shadow 0.3sease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    border: 1px solid green;
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    padding: 4px;
+}
+
+.DynrowRemove {
+    background: none;
+    color: red;
+    transition: background 0.3sease, border-color 0.3sease, box-shadow 0.3sease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    border: 1px solid red;
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    padding: 4px;
+    margin-top: 21px;
+}
+
+.AddStockBtn:hover {
+    background-color: #1A2A;
+    color: white;
+    box-shadow: 0 3px 11px rgb(58 169 0 / 93%);
+}
+
+.DynrowRemove:hover {
+    background-color: #aa1111aa;
+    color: white;
+    box-shadow: 0 3px 11px rgb(169 0 0 / 93%);
+}
+
+.DynamicLable {
+    margin-top: 0px;
+    font-size: 14px !important;
+    font-weight: 600;
+    font-family: cursive;
+    text-shadow: 6px 2px 6px rgb(0 0 0 / 22%);
+}

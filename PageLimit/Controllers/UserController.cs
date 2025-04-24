@@ -20,23 +20,6 @@ namespace PageLimit.Controllers
             return View();
         }
 
-        public class GetUserDetails_1 { 
-            public int? UserId { get; set; } 
-        }
-
-        public class UserData
-        {
-            public int? UserId { get; set; }
-            public string Name { get; set; }
-            public string Gender { get; set; }
-            public string Skill { get; set; }
-            public string PhoneNo { get; set; }
-            public string Email { get; set; }
-            public string Address { get; set; }
-            public string CountryName { get; set; }
-            public int? CountryId { get; set; }
-        }
-
         [HttpGet]
         [Route("GetUserDetails")]
         public IActionResult GetUserDetails(int? userId)
@@ -55,41 +38,36 @@ namespace PageLimit.Controllers
                     command.Parameters.Add("@Status", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     command.Parameters.Add("@Message", SqlDbType.NVarChar, 500).Direction = ParameterDirection.Output;
 
-                   
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     adapter.Fill(DS);
 
                     response.Status = Convert.ToBoolean(command.Parameters["@Status"].Value);
                     response.Message = Convert.ToString(command.Parameters["@Message"].Value);
-                    
+
                 }
 
                 connection.Close();
             }
-            List<UserData> userList = new List<UserData>();
-            for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
-            {
-                UserData userdetail = new UserData();
-                userdetail.UserId = Convert.ToInt32(DS.Tables[0].Rows[i]["UserId"]);
-                userdetail.Name = Convert.ToString(DS.Tables[0].Rows[i]["Name"]);
-                userdetail.Gender = Convert.ToString(DS.Tables[0].Rows[i]["Gender"]);
-                userdetail.Skill = Convert.ToString(DS.Tables[0].Rows[i]["Skill"]);
-                userdetail.PhoneNo = Convert.ToString(DS.Tables[0].Rows[i]["PhoneNo"]);
-                userdetail.Email = Convert.ToString(DS.Tables[0].Rows[i]["Email"]);
-                userdetail.Address = Convert.ToString(DS.Tables[0].Rows[i]["Address"]);
-                userdetail.CountryName = Convert.ToString(DS.Tables[0].Rows[i]["CountryName"]);
-                userdetail.CountryId = Convert.ToInt32(DS.Tables[0].Rows[i]["CountryId"]);
+            //List<UserData> userList = new List<UserData>();
+            //for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+            //{
+            //    UserData userdetail = new UserData();
+            //    userdetail.UserId = Convert.ToInt32(DS.Tables[0].Rows[i]["UserId"]);
+            //    userdetail.Name = Convert.ToString(DS.Tables[0].Rows[i]["UserName"]);
+            //    userdetail.Gender = Convert.ToString(DS.Tables[0].Rows[i]["Gender"]);
+            //    userdetail.Skill = Convert.ToString(DS.Tables[0].Rows[i]["Skill"]);
+            //    userdetail.PhoneNo = Convert.ToString(DS.Tables[0].Rows[i]["PhoneNo"]);
+            //    userdetail.Email = Convert.ToString(DS.Tables[0].Rows[i]["Email"]);
+            //    userdetail.Address = Convert.ToString(DS.Tables[0].Rows[i]["Address"]);
+            //    userdetail.CountryName = Convert.ToString(DS.Tables[0].Rows[i]["Country"]);
+            //    userdetail.CountryId = Convert.ToInt32(DS.Tables[0].Rows[i]["CountryId"]);
 
-                userList.Add(userdetail);
-            }
-            response.Data = userList;
+            //    userList.Add(userdetail);
+            //}
+            //response.Data = userList;
+
+            response.Data = JsonConvert.DeserializeObject<List<UserData>>(JsonConvert.SerializeObject(DS.Tables[0]));
             return Json(response);
-        }
-
-        public class DataCountry
-        {
-            public int CountryId { get; set; }
-            public string CountryName { get; set; }
         }
 
         [HttpGet]
@@ -135,35 +113,19 @@ namespace PageLimit.Controllers
             return Json(response);
         }
 
-
         [HttpPost]
         [Route("InsertUpdateUser")]
         public IActionResult InsertUpdateUser([FromBody] InsertUpdateUser request)
         {
-            string storedProcedure = (request.UserId != null)
-                ? "[dbo].[UpdateUserDetails]"
-                : "[dbo].[InsertUserDetails]";
-
             using (SqlConnection connection = new SqlConnection(_ConnectionString))
             {
                 connection.Open();
 
-                using (SqlCommand command = new SqlCommand(storedProcedure, connection))
+                using (SqlCommand command = new SqlCommand("[dbo].[InsertOrUpdateUserDetails]", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@Name", request.Name);
-                    command.Parameters.AddWithValue("@Gender", request.Gender);
-                    command.Parameters.AddWithValue("@Skill", request.Skill);
-                    command.Parameters.AddWithValue("@PhoneNo", request.PhoneNo);
-                    command.Parameters.AddWithValue("@Email", request.Email);
-                    command.Parameters.AddWithValue("@Address", request.Address);
-                    command.Parameters.AddWithValue("@CountryId", request.CountryId);
-
-                    if (request.UserId > 0)
-                    {
-                        command.Parameters.AddWithValue("@UserId", request.UserId);
-                    }
+                    command.Parameters.AddWithValue("@TVP_UserDetails", ConvertToDataTable(request.UserDetails));
 
                     command.Parameters.Add("@Status", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     command.Parameters.Add("@Message", SqlDbType.NVarChar, 500).Direction = ParameterDirection.Output;
@@ -207,5 +169,36 @@ namespace PageLimit.Controllers
             return Json(response);
         }
 
+        private DataTable ConvertToDataTable(List<UserDetails> userDetails)
+        {
+
+            DataTable dt = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(userDetails));
+            //DataTable dt = new DataTable();
+
+            //dt.Columns.Add("UserId", typeof(int));
+            //dt.Columns.Add("Name", typeof(string));
+            //dt.Columns.Add("Gender", typeof(string));
+            //dt.Columns.Add("Skill", typeof(string));
+            //dt.Columns.Add("PhoneNo", typeof(string));
+            //dt.Columns.Add("Email", typeof(string));
+            //dt.Columns.Add("Address", typeof(string));
+            //dt.Columns.Add("CountryId", typeof(int));
+
+            //foreach (var user in userDetails)
+            //{
+            //    DataRow row = dt.NewRow();
+            //    row["UserId"] = user.UserId ?? 0;
+            //    row["Name"] = user.Name;
+            //    row["Gender"] = user.Gender;
+            //    row["Skill"] = user.Skill;
+            //    row["PhoneNo"] = user.PhoneNo;
+            //    row["Email"] = user.Email;
+            //    row["Address"] = user.Address ?? "";
+            //    row["CountryId"] = user.CountryId;
+            //    dt.Rows.Add(row);
+            //}
+
+            return dt;
+        }
     }
 }
