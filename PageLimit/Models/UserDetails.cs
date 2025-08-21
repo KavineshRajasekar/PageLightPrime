@@ -38,6 +38,7 @@ namespace PageLimit.Models
 
     public class UserData
     {
+        public int? SNo { get; set; }
         public int? UserId { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }

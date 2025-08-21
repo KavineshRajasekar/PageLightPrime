@@ -29,6 +29,7 @@ $(document).ready(function () {
         $('#SaveModel').text('Save');
         $('#FromUserDetails').empty("");
         DyanamicHtml();
+        $('#AddStockBtn').show();
     });
 
     $(document).on('click', '#CloseModel', function () {
@@ -114,6 +115,7 @@ $(document).ready(function () {
                     $('#myUser').modal('show');
                     $('#FromUserDetails').empty("");
                     $('#SaveModel').text('Update');
+                    $('#AddStockBtn').hide();
                     var data = response.data;
 
                     $.each(data, function (index, value) {
@@ -289,6 +291,7 @@ function GetUserDetails() {
                 }
                 $.each(data, function (index, item) {
                     var row = $('<tr>');
+                    row.append($('<td>').text(item.sNo || '-'));
                     row.append($('<td>').text(item.name || '-'));
                     row.append($('<td>').text(item.email || '-'));
                     row.append($('<td>').text(item.phoneNo || '-'));
